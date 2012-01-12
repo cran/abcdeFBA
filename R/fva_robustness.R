@@ -12,7 +12,7 @@ FLUX_VAR_ANALYSIS<-function(fba_object,reactions=NULL,filename="FVA_Default.xls"
 	flux_variability$upper_limit=vector()
 	flux_variability$flux_span=vector()
 
-#------------------------------------on all the reactions-----------------------------------------------#
+#------------------------------------on all/subset of the reactions-------------------------------------#
 if(length(reactions)==0)										#
 {reactions=1:length(fba_object$obj)}									#
 													#

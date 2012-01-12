@@ -17,7 +17,7 @@ if(length(reactions)==0)
 for(i in (reactions))
 	{
 
-	fba_object_temp=CHANGE_RXN_BOUNDS(reaction_number=i,fba_object,lower_bound=0,upper_bound=0)
+	fba_object_temp=CHANGE_RXN_BOUNDS(reaction_number=i,fba_object,lb=0,ub=0)
 	fba_sol<-FBA_solve(fba_object_temp,6)
 	Exhaus_sol_list<-c(Exhaus_sol_list,fba_sol$objective)
 

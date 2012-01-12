@@ -1,59 +1,81 @@
-###- PHPP is a linear optimization procedure which can be used to study the value of the objective function (a desired phenotype) as two variables (external substrates) vary simultaneously.###
- 
-PHPP<-function(reaction_number=c(28,36),fba_object,PCS="D glucose",flux_range=c(1,15)){
-candidates<-grep(PCS,fba_object$reaction_list,ignore.case=TRUE) 
+PHPP<-function(reaction_number=c(28,36),fba_object,PCS="D glucose",flux_range=NULL,ret_OBJ_mat=FALSE,surf_col="red",divs=5,dimension="3",animate=FALSE,objective=NULL){
+
+candidates<-grep(PCS,fba_object$reaction_list,ignore.case=TRUE)
 message("\nProbable Carbon Sources:") 
 print(fba_object$reaction_list[candidates])
 C_S<-as.numeric(readline("\nSelect the Carbon source from the list above by serial number"))
 
-	if(length(which(reaction_number==candidates[C_S]))==0)
+if(length(which(reaction_number==candidates[C_S]))==0)
 	{
 	message("Alternate carbon source PhPP")
-	fba_object$bounds$lower$val[candidates[C_S]]=0
-	OBJ_MATRIX<-matrix(0,flux_range[2],flux_range[2])
-	for(i in flux_range[1]:flux_range[2])
-		{
-		print(i)
-		for(j in flux_range[1]:flux_range[2])
-			{
-			fba_object$bounds$lower$val[reaction_number[1]]=-1*i
-			fba_object$bounds$lower$val[reaction_number[2]]=-1*j
-			FBA_SOL_TEMP<-FBA_solve(fba_object,7)
-			OBJ_MATRIX[i,j]=FBA_SOL_TEMP$objective
-			}
-		}
-			zlim <- range(flux_range)
-			zlen <- zlim[2] - zlim[1] + 1
-			colorlut<-rainbow(zlen)
-			col <- colorlut[ OBJ_MATRIX*(zlim[1]+5) ] # assign colors to heights for each point
-			persp3d(c(flux_range[1]:flux_range[2]),c(flux_range[1]:flux_range[2]),
-			OBJ_MATRIX,xlim=range(flux_range),ylim=range(flux_range),zlim=range(OBJ_MATRIX),
-			xlab=fba_object$reaction_list[reaction_number[1]],ylab=fba_object$reaction_list[reaction_number[2]],
-			zlab=fba_object$reaction_list[which(fba_object$obj==1)],color=col, alpha=0.95, back="lines")
-	}
-###############################################################################################################################################
-	if(length(which(reaction_number==candidates[C_S]))>0)
+	fba_object<-CHANGE_RXN_BOUNDS(reaction_number=candidates[C_S],fba_object,lb=0,ub=0)
+	}else(message("Primary carbon source PhPP"))
+if(length(flux_range)==0)
+{
+a1<-round(Flux_Ranger(reaction_number[1],fba_object=fba_object,divs=divs)$ramp,3)
+b1<-round(Flux_Ranger(reaction_number[2],fba_object=fba_object,divs=divs)$ramp,3)
+}else{a1<-round(Flux_Ranger(reaction_number[1],fba_object=fba_object,divs=divs,art_limit_range=flux_range)$ramp,3)
+b1<-round(Flux_Ranger(reaction_number[2],fba_object=fba_object,divs=divs,art_limit_range=flux_range)$ramp,3)
+}
+
+message("Phenotypic PhasePlane Analysis Info-:")
+message("X-axis")
+message(fba_object$reaction_list[reaction_number[1]]) 
+print(a1)
+message("Y-axis")
+message(fba_object$reaction_list[reaction_number[2]])
+print(b1)
+OBJ_MAT=matrix(0,divs,divs)
+
+for(i in 1:length(a1))
 	{
-	message("Primary carbon source PhPP")
-	OBJ_MATRIX<-matrix(0,flux_range[2],flux_range[2])
-	for(i in flux_range[1]:flux_range[2])
+	for(j in 1:length(b1))
 		{
-		print(i)
-		for(j in flux_range[1]:flux_range[2])
-			{
-			fba_object$bounds$lower$val[reaction_number[1]]=i*(-1)
-			fba_object$bounds$lower$val[reaction_number[2]]=j*(-1)
-			FBA_SOL_TEMP<-FBA_solve(fba_object,7)
-			OBJ_MATRIX[i,j]=FBA_SOL_TEMP$objective
-			}
+		temp_mod<-CHANGE_RXN_BOUNDS(reaction_number=reaction_number[1],fba_object,lb=a1[i],ub=a1[i])
+		temp_mod<-CHANGE_RXN_BOUNDS(reaction_number=reaction_number[2],temp_mod,lb=b1[j],ub=b1[j])	
+		temp_sol<-FBA_solve(temp_mod)		
+		if(length(objective)>0)		
+		{OBJ_MAT[i,j]<-temp_sol$fluxes[objective]}else{OBJ_MAT[i,j]<-temp_sol$objective}
 		}
-			zlim <- range(flux_range)
-			zlen <- zlim[2] - zlim[1] + 1
-			colorlut<-rainbow(zlen)
-			col <- colorlut[ OBJ_MATRIX*(zlim[1]+5) ] # assign colors to heights for each point
-			persp3d(c(flux_range[1]:flux_range[2]),c(flux_range[1]:flux_range[2]),OBJ_MATRIX,
-			xlim=range(flux_range),ylim=range(flux_range),zlim=range(OBJ_MATRIX),
-			xlab=fba_object$reaction_list[reaction_number[1]],ylab=fba_object$reaction_list[reaction_number[2]],
-			zlab=fba_object$reaction_list[which(fba_object$obj==1)],color=col, alpha=0.95, back="lines")	
+	}
+
+if(dimension=="2")
+	{
+		#print("we need access")
+		rownames(OBJ_MAT)=a1
+		colnames(OBJ_MAT)=b1
+		OBJ_MAT<-round(OBJ_MAT,3)
+		print(levelplot(OBJ_MAT,contour=T,labels=T,xlab=fba_object$reaction_list[reaction_number[1]],ylab=fba_object$reaction_list[reaction_number[2]]))
+	
+		if(ret_OBJ_mat==TRUE){
+		rownames(OBJ_MAT)=a1
+		colnames(OBJ_MAT)=b1
+		return(OBJ_MAT)
+		}
+
+	}
+
+if(dimension=="3")
+	{
+	print("3D")
+	if(length(objective)>0)
+	{
+	persp3d(x=a1,y=b1,z=OBJ_MAT,xlab=fba_object$reaction_list[reaction_number[1]],ylab=fba_object$reaction_list[reaction_number[2]],
+			zlab=fba_object$reaction_list[objective],color=surf_col, alpha=0.95, back="lines",smooth=FALSE,main="PHPP")} else{persp3d(x=a1,y=b1,z=OBJ_MAT,xlab=fba_object$reaction_list[reaction_number[1]],ylab=fba_object$reaction_list[reaction_number[2]],
+			zlab=fba_object$reaction_list[which(fba_object$obj==1)],color=surf_col, alpha=0.95, back="lines",smooth=FALSE,main="PHPP")}
+		if(animate==TRUE)
+		{
+		play3d(spin3d(axis=c(1,0,0), rpm=10), duration=6)
+		play3d(spin3d(axis=c(0,1,0), rpm=10), duration=6)
+		play3d(spin3d(axis=c(0,0,1), rpm=10), duration=6)
+		}
+
+	if(ret_OBJ_mat==TRUE){
+		rownames(OBJ_MAT)=a1
+		colnames(OBJ_MAT)=b1
+		return(OBJ_MAT)
+		}
+
+
 	}
 }

@@ -12,9 +12,10 @@
 
 \usage{M_barkeri_iAF629.rda}
 
-\format{A list containing the information required to perform FBA and annotations for intelligible output.}
+\format{A list containing the information required to perform FBA and 
+annotations for intelligible output.}
 
 \source{BiGG database}
 
-\references{Modeling methanogenesis with a genome scale metabolic reconstruction of Methanosarcina barkeri 
-		by Feist AM, Scholten JCM, Palsson BO}
+\references{Modeling methanogenesis with a genome scale metabolic 
+reconstruction of Methanosarcina barkeri by Feist AM, Scholten JCM, Palsson BO}

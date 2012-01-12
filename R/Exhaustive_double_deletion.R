@@ -13,7 +13,7 @@ message("Starting Double Knockout Simulation...")
 		for(i in 1:dim(reacn_combos)[2])
 			{
 			print(paste(i,dim(reacn_combos)[2],sep=" "))
-			fba_mutant<-CHANGE_RXN_BOUNDS(reaction_number=reacn_combos[,i],fba_object,lower_bound=0,upper_bound=0)			
+			fba_mutant<-CHANGE_RXN_BOUNDS(reaction_number=reacn_combos[,i],fba_object,lb=0,ub=0)			
 			FBA_MUTANT<-FBA_solve(fba_mutant)
 		
 			if(FBA_MUTANT$objective==0)
@@ -42,7 +42,7 @@ message("Starting Double Knockout Simulation...")
 			{
 			print(paste(i,I_2,sep=" "))
 
-			fba_mutant<-CHANGE_RXN_BOUNDS(reaction_number=reacn_combos[,i],fba_object,lower_bound=0,upper_bound=0)			
+			fba_mutant<-CHANGE_RXN_BOUNDS(reaction_number=reacn_combos[,i],fba_object,lb=0,ub=0)			
 			FBA_MUTANT<-FBA_solve(fba_mutant)
 		
 			if(FBA_MUTANT$objective==0)

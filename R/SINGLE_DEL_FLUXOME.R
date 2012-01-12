@@ -46,10 +46,12 @@ if(length(mut_flux_inc)>0)
 		y_axis_wt<-fba_sol_wt$fluxes[vec1]
 		y_axis_mut<-fba_sol_mut$fluxes[vec1]
 		y_limits<-c(min(c(y_axis_wt,y_axis_mut)),max(c(y_axis_wt,y_axis_mut)))
-	
+		if(max(y_limits)!=0)
+			{		
 		barplot(y_axis_wt,names.arg=vec1,xlab="Reaction",ylab="Flux",col="green",main=unique_list[i],ylim	=y_limits,density=85,beside=TRUE)
 		par(new=TRUE)
 		barplot(y_axis_mut,names.arg=vec1,xlab="Reaction",ylab="Flux",col="red",main=unique_list[i],ylim=y_limits,density=85,beside=TRUE)
+			}		
 		print(i)
 		}
 	dev.off()
@@ -67,10 +69,12 @@ if(length(mut_flux_dec)>0)
 		y_axis_wt<-fba_sol_wt$fluxes[vec1]
 		y_axis_mut<-fba_sol_mut$fluxes[vec1]
 		y_limits<-c(min(c(y_axis_wt,y_axis_mut)),max(c(y_axis_wt,y_axis_mut)))
-
-		barplot(y_axis_wt,names.arg=vec1,xlab="Reaction",ylab="Flux",col="green",main=unique_list[i],ylim=y_limits,density=85,beside=TRUE)
-		par(new=TRUE)
-		barplot(y_axis_mut,names.arg=vec1,xlab="Reaction",ylab="Flux",col="red",main=unique_list[i],ylim=y_limits,density=85,beside=TRUE)
+		if(max(y_limits)!=0)
+			{
+			barplot(y_axis_wt,names.arg=vec1,xlab="Reaction",ylab="Flux",col="green",main=unique_list[i],ylim=y_limits,density=85,beside=TRUE)
+			par(new=TRUE)
+			barplot(y_axis_mut,names.arg=vec1,xlab="Reaction",ylab="Flux",col="red",main=unique_list[i],ylim=y_limits,density=85,beside=TRUE)
+			}
 		print(i)
 		}
 	dev.off()

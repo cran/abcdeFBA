@@ -10,7 +10,8 @@
 
 \usage{Ecoli_core}
 
-\format{A list containing the information required to perform FBA and annotations for intelligible output.}
+\format{A list containing the information required to perform FBA and 
+annotations for intelligible output.}
 
 \source{BiGG database}
 
