@@ -34,5 +34,7 @@ if(fba_sol$status==0)
 	FBA_solution$fluxes=fba_sol$solution
 	FBA_solution$objective=fba_sol$optimum
 	FBA_solution$status=fba_sol$status
-	return(FBA_solution)}
+	return(FBA_solution)
+}
+
 }

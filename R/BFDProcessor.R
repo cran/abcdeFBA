@@ -10,14 +10,13 @@ if(length(EXSDR)==0)
 flux_vec=EXSDR$lethal_dels
 
 print("Put the batch files named in the format results(num) in a folder called BKO and put in the system directory before continuing")
-sim4=matrix(c(0,0,0,0),nrow=1)
+sim4=matrix(c(0,0,0),nrow=1)
 num_files<-as.numeric(readline("Enter the number of input files"))
 for(i in 1:num_files)
 	{
 	sim4<-rbind(sim4,read.table(paste("./BKO/results",i,sep="")))
 	}
-	simr4<-sim4[2:length(sim4[,1]),2:4]
-	Sim4<-simr4[which(simr4[,3]!=1),]
+	Sim4<-sim4[which(sim4[,3]!=1),]
 for(i in 1:length(flux_vec))
 	{
 	Sim4<-Sim4[which(Sim4[,1]!=flux_vec[i]),]
@@ -45,7 +44,7 @@ for(i in 1:length(set2_uniq))
 	+length(which(set1_uniq[i]==pairwise_fatality_unique))}
 
 png("Freq_curve_bko_log.png")
-plot(rev(sort(freq_reac1)),log="xy",type="p",col="blue",ylab="Frequency of Reaction Interaction",xlab="Metabolite ID",main="Log-log plot of Lethal Interactions")
+plot(rev(sort(freq_reac1)),log="xy",type="p",col="blue",ylab="Synthetic Double Lethality Pairing Frequency",xlab="Reaction ID",main="Log-log plot of Lethal Interactions")
 dev.off()
 
 #source("../system/dko_freq_anlyz.R")

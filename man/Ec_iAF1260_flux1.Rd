@@ -1,8 +1,8 @@
-\name{Ec_iAF1260.rda}
+\name{Ec_iAF1260_flux1.rda}
 
 \docType{data}
 
-\alias{Ec_iAF1260}
+\alias{Ec_iAF1260_flux1}
 
 \title{E.coli model 1260 ORF's}
 
@@ -10,7 +10,7 @@
 		was created from the S4 object created by readSBMLmod 
 		from the package Sybil using the Sybil_2_FBA_obj function.}
 
-\usage{Ec_iAF1260}
+\usage{Ec_iAF1260_flux1}
 
 \format{A list containing the information required to perform FBA and annotations for intelligible output.}
 

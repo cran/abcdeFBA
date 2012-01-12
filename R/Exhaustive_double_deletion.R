@@ -4,47 +4,32 @@ message("Generating Reaction Combinations...")
 reacn_combos<-combn(1:dim(fba_object$mat)[2],2)
 message("Done!")
 
-j=0
-ko_1x=0
-ko_2x=0
-ko_stat=0
+ko_1x=vector()
+ko_2x=vector()
+ko_stat=vector()
 message("Starting Double Knockout Simulation...")
 	if(core_number==1)
 	{	
 		for(i in 1:dim(reacn_combos)[2])
 			{
 			print(paste(i,dim(reacn_combos)[2],sep=" "))
-			temp_lb1=fba_object$bounds$lower$val[reacn_combos[,i][1]]
-			temp_lb2=fba_object$bounds$lower$val[reacn_combos[,i][2]]
-			temp_ub1=fba_object$bounds$upper$val[reacn_combos[,i][1]]
-			temp_ub2=fba_object$bounds$upper$val[reacn_combos[,i][2]]
-			
-			fba_object$bounds$lower$val[reacn_combos[,i][1]]=0
-			fba_object$bounds$lower$val[reacn_combos[,i][2]]=0
-			fba_object$bounds$upper$val[reacn_combos[,i][1]]=0
-			fba_object$bounds$upper$val[reacn_combos[,i][2]]=0
-			
-			FBA_MUTANT<-FBA_solve(fba_object)
+			fba_mutant<-CHANGE_RXN_BOUNDS(reaction_number=reacn_combos[,i],fba_object,lower_bound=0,upper_bound=0)			
+			FBA_MUTANT<-FBA_solve(fba_mutant)
 		
 			if(FBA_MUTANT$objective==0)
 			{
-			j=j+1
-			ko_1x[j]=reacn_combos[,i][1]
-			ko_2x[j]=reacn_combos[,i][2]
-			ko_stat[j]=FBA_MUTANT$status
+			ko_1x=c(ko_1x,reacn_combos[,i][1])
+			ko_2x=c(ko_2x,reacn_combos[,i][2])
+			ko_stat=c(ko_stat,FBA_MUTANT$status)
 			}	
 		
-			fba_object$bounds$lower$val[reacn_combos[,i][1]]=temp_lb1
-			fba_object$bounds$lower$val[reacn_combos[,i][2]]=temp_lb2
-			fba_object$bounds$upper$val[reacn_combos[,i][1]]=temp_ub1
-			fba_object$bounds$upper$val[reacn_combos[,i][2]]=temp_ub2
 			}
 	message("End of simulation.")
 	flux_pairs<-cbind(ko_1x,ko_2x,ko_stat)
 	message("Writing output to file...")
 	write.table(flux_pairs,file=paste("results",thread_no+1,sep=""),sep="\t",row.names=TRUE, col.names=FALSE,quote=FALSE)
 	message("Complete!")
-}
+	}
 
 	if(core_number>1)
 	{
@@ -56,30 +41,17 @@ message("Starting Double Knockout Simulation...")
 			for(i in I_1:I_2)
 			{
 			print(paste(i,I_2,sep=" "))
-			temp_lb1=fba_object$bounds$lower$val[reacn_combos[,i][1]]
-			temp_lb2=fba_object$bounds$lower$val[reacn_combos[,i][2]]
-			temp_ub1=fba_object$bounds$upper$val[reacn_combos[,i][1]]
-			temp_ub2=fba_object$bounds$upper$val[reacn_combos[,i][2]]
-			
-			fba_object$bounds$lower$val[reacn_combos[,i][1]]=0
-			fba_object$bounds$lower$val[reacn_combos[,i][2]]=0
-			fba_object$bounds$upper$val[reacn_combos[,i][1]]=0
-			fba_object$bounds$upper$val[reacn_combos[,i][2]]=0
-			
-			FBA_MUTANT<-FBA_solve(fba_object)
+
+			fba_mutant<-CHANGE_RXN_BOUNDS(reaction_number=reacn_combos[,i],fba_object,lower_bound=0,upper_bound=0)			
+			FBA_MUTANT<-FBA_solve(fba_mutant)
 		
 			if(FBA_MUTANT$objective==0)
 			{
-			j=j+1
-			ko_1x[j]=reacn_combos[,i][1]
-			ko_2x[j]=reacn_combos[,i][2]
-			ko_stat[j]=FBA_MUTANT$status
+			ko_1x=c(ko_1x,reacn_combos[,i][1])
+			ko_2x=c(ko_2x,reacn_combos[,i][2])
+			ko_stat=c(ko_stat,FBA_MUTANT$status)
 			}	
 		
-			fba_object$bounds$lower$val[reacn_combos[,i][1]]=temp_lb1
-			fba_object$bounds$lower$val[reacn_combos[,i][2]]=temp_lb2
-			fba_object$bounds$upper$val[reacn_combos[,i][1]]=temp_ub1
-			fba_object$bounds$upper$val[reacn_combos[,i][2]]=temp_ub2
 			}
 	message("End of Simulation")
 	flux_pairs<-cbind(ko_1x,ko_2x,ko_stat)
