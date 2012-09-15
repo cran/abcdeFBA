@@ -30,3 +30,8 @@ version 0.3
 * a new function, Flux_Ranger has been added to help PHPP and PERTURBATION_analysis detect the optimal fluxes for the combinatorial ramp.
 * The Gene_del now can return either the whole FBA model or reaction numbers corresponding to the genes deleted via the argument return_reactions.
 Gene_del is an upgraded new version of the Gene_del function in version 0.2. We've ironed out a bug in multiple-gene-deletion implementation. This version has some more informative error messages and a much improved evaluation of GPR not relying on hard-coded boolean evaluation R code like the previous version.
+
+#------------------------------------------------#
+version 0.4
+* Rglpk has been upgraded and this broke abcdeFBA, due corrections have been made but abcdeFBA will only work with Rglpk 0.3.1
+* Another bug (yet again) in Gene_del which caused a crash in similar locus names in the S_cerevisiae model has been fixed.

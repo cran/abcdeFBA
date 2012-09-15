@@ -1,9 +1,9 @@
-329e0a22897ea927a96005b0f6e56d70 *DESCRIPTION
+12617609cfc2841add0fc3172477c908 *DESCRIPTION
 b99b17db0e1dbfa7b162486b43a377e2 *NAMESPACE
 7766ebed2b94d8bb78fe93ecbe5896f2 *R/BFDProcessor.R
 68705808f771f566fad38748bc887e43 *R/Exhaustive_double_deletion.R
 8414e341757b7c99e03d05a5666f3ea3 *R/Exhaustive_single_deletion.R
-63601437a2d8f580cd1bfd6f0139c1b0 *R/FBA_solve.R
+30d61f74e4d111bb41dc70bfcd15e761 *R/FBA_solve.R
 65fdc1381cc247aeea0e3dff99ebcf51 *R/PERTURBATION_analysis.R
 7c60b94ed12775ff2b7ff95249c59e28 *R/PHPP.R
 951a11d4d17774f56260e0cd6565233a *R/SINGLE_DEL_FLUXOME.R
@@ -12,10 +12,10 @@ c6e35856f5139b5338296e80cd28e37b *R/View_objective.R
 50d56af836508fadfbb104844d2ed7ff *R/flux_difference_plotter.R
 ab4ea283c36e851355ab269b94703f37 *R/flux_ranger.R
 687a00ed55a329e77f218dbe741cf3bc *R/fva_robustness.R
-1eb5ac7831458d087cf19f72ddb4fcbd *R/geneDel.R
+95ba9e7b5a0539f8b5ee115a1980e676 *R/geneDel.R
 e78d9b8fbb894d8d74d65ca6ed79a30c *R/metab_connect.R
 ea4e432dbbdaed374adab043c21f0331 *R/search_reaction_metabolite.R
-958de0b02a49d60504dd1c0ae84ef0a2 *R/sybil2fba_object.R
+a02e517ad0be983b402712899e8cf2cf *R/sybil2fba_object.R
 aaa56d27706011b6899be134874082e9 *data/Ec_iAF1260_flux1.rda
 fe4d653fa5bc0b370e9145fc21114294 *data/Ec_iAF1260_flux2.rda
 f7b54d04c5896d816b38305bcb20fffe *data/Ec_iJR904.rda
@@ -26,7 +26,7 @@ ba903089ea7f05e1d474bc5df811f38a *data/M_barkeri_iAF629.rda
 518147102b08a6ba377057bd6afb06ba *data/M_tb_iNJ661.rda
 f4072d3bd613d8144fded4627122b10f *data/S_aureus_iSB619.rda
 a3664783d1bcd17d90304b32cb193ef2 *data/S_cerevisiae_IND750.rda
-e7ed9bec9e1bf42e02d08f969810bef3 *doc/version_history
+f298a04ddb1545a8659ab7d336114b4d *doc/version_history
 e01665c6144d6871c544c61f571899ae *man/BFDProcessor.Rd
 845e26eaddbf925f7d7b6f0a3d669aa5 *man/Ec_iAF1260_flux1.Rd
 3e34083081b245627d628b23ed5cb5ff *man/Ec_iAF1260_flux2.Rd

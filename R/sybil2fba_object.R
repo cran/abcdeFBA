@@ -16,10 +16,6 @@ Sybil_2_FBA_obj<-function(Sybil_S4_object)
 	FBA_obj$all_genes<-Sybil_S4_object@allGenes
 	FBA_obj$gpr<-Sybil_S4_object@gpr
 	FBA_obj$rxnGeneMat<-Sybil_S4_object@rxnGeneMat
-	FBA_obj$Sne<-Sybil_S4_object@Sne
-	FBA_obj$Sia<-Sybil_S4_object@Sia
-	FBA_obj$Sja<-Sybil_S4_object@Sja
-	FBA_obj$Sar<-Sybil_S4_object@Sar
 
 	return(FBA_obj)
 }
